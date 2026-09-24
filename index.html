@@ -1,0 +1,42 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Примерка ковра</title><style>body{margin:0}</style>
+<style>
+:root{--bg:#f3f1ee;--ink:#1d2333;--mute:#5d6478;--line:#d9d5ce;--acc:#1f4fb4;--on:#fff;--card:#fbfaf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171f;--ink:#e9e9ee;--mute:#9aa1b5;--line:#2a3040;--acc:#6f9bff;--on:#101420;--card:#1a1e29;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171f;--ink:#e9e9ee;--mute:#9aa1b5;--line:#2a3040;--acc:#6f9bff;--on:#101420;--card:#1a1e29;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,sans-serif;padding-inline:16px;padding-block:24px}
+.w{max-width:760px;margin:0 auto;display:grid;gap:18px}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(26px,6vw,38px);margin:0;text-wrap:balance}
+p{margin:0;line-height:1.55;color:var(--mute);font-size:15px}
+model-viewer{width:100%;height:min(70vh,520px);background:var(--card);border:1px solid var(--line);border-radius:6px;--poster-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px;border-radius:4px;cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ar{background:var(--acc);color:var(--on);border-color:var(--acc);margin-left:auto}
+.note{font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Manrope:wght@400;600&display=swap">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<div class="w">
+<div class="tag">Демо, не связано с сайтом</div>
+<h1>Примерка ковра на полу</h1>
+<p>Крутите модель пальцем. На телефоне нажмите «Примерить у себя»: ковёр появится на полу комнаты в реальном размере.</p>
+<model-viewer id="mv" src="rug.glb" alt="Синий акриловый ковёр" camera-controls touch-action="pan-y" ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor" camera-orbit="0deg 55deg auto" shadow-intensity="1" exposure="1.05" interaction-prompt="none">
+<button slot="ar-button" class="ar">Примерить у себя</button>
+</model-viewer>
+<div class="row" id="sz" role="group" aria-label="Размер">
+<button aria-pressed="false" data-s="0.75" data-t="120 × 172 см">120 × 172</button>
+<button aria-pressed="true" data-s="1" data-t="160 × 230 см">160 × 230</button>
+<button aria-pressed="false" data-s="1.25" data-t="200 × 287 см">200 × 287</button>
+</div>
+<p id="cur">Сейчас: 160 × 230 см</p>
+<p class="note">Рисунок взят из обычного фото товара (акриловый ковёр 160×230), выпрямленного в плоскую текстуру, поэтому на краях рисунок слегка мылится. Для продакшена нужна ровная студийная съёмка сверху. Ворс и толщина упрощены до плоской плиты 1,2 см.</p>
+</div>
+<script>
+var mv=document.getElementById('mv');
+document.querySelectorAll('#sz button').forEach(function(b){b.onclick=function(){
+document.querySelectorAll('#sz button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+var s=b.dataset.s;mv.scale=s+' 1 '+s;document.getElementById('cur').textContent='Сейчас: '+b.dataset.t;};});
+</script>
+</html>
